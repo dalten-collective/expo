@@ -1,0 +1,9 @@
+:~  title+'expo'
+    info+'A Proof of Attendance Protocol for Urbit'
+    color+0xee.561c
+    site+/apps/expo
+    base+'expo'
+    version+[0 0 1]
+    website+'https://dalten.org/'
+    license+'Get Rekt'
+==
