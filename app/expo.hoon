@@ -59,7 +59,6 @@
     :_  caz
     [%pass /expo/groups %agent [our.bowl %group-store] %watch [%groups ~]]
   ~&  >  [%expo %reload ~]
-  ~&  >  ~(key by mainui)
   [caz this(state old)]
 ::
 ++  on-arvo
@@ -117,7 +116,6 @@
 |_  bol=bowl:gall
 ++  ravel
   |=  gop=update:gs
-  ~&  >>  "en-ravel {<gop>}"
   |^
   ?-  -.gop
     %expose          (expose +.gop)
@@ -399,7 +397,6 @@
         [(send [200 ~ [%manx (build:main %index ~)]]) state]
       ?>  ?=(%p -<.u.who-wat)
       =+  args=[%resource (rap 3 (scot -.u.who-wat) '|' (crip +.u.who-wat) ~)]~
-      ~&  >>  [ruz args]
       [(send [200 ~ [%manx (build:main %index args)]]) state]
     ==
   ==

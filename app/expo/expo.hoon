@@ -64,7 +64,6 @@
           =/  who-wat=(unit [dime tape])
             %+  rush  u.sel
             ;~(pfix sig ;~((glue bar) crub:so (star next)))
-          ~&  >>>  who-wat
           ?~  who-wat
             ;body
               ;p:"something went wrong..."
