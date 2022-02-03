@@ -102,7 +102,7 @@
       ?+    p.cage.sign  !!
           %group-update-0
         =/  gup=update:gs  !<(update:gs q.cage.sign)
-        (ravel gup)
+        (ravel:hc gup)
       ==
     [cards this]
   ==

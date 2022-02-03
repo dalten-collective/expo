@@ -75,12 +75,76 @@
               ;p:"I couldn't find that group"
             ==
           ;body
-            ;h3:"members:"
-            ;+  (memb-maker (~(got by meep) [ship res]))
-            ;br;
-            ;h3:"admins:"
-            ;+  =-  (admin-maker (~(get ju tags.-) %admin))
-                (~(got by meep) [ship res])
+            ;script:"{(trip script)}"
+            ;div(align "center")
+              ;table(class "output")
+                ;tr
+                  ;td
+                    ;h3:"info:"
+                  ==
+                  ;td(width "200px")
+                    ;br;
+                  ==
+                  ;td
+                    ;h3:"pokes:"
+                  ==
+                ==
+                ;tr(vertical-align "top")
+                  ;td
+                    ;h4:"members:"
+                    ;+  (memb-maker (~(got by meep) [ship res]))
+                    ;button(onclick "copy(\"members\")"):"copy"
+                  ==
+                  ;td(width "200px")
+                    ;br;
+                  ==
+                  ;td(class "right-column")
+                    ;h4:"settings:"
+                    ;input(class "resource", name "newsource", id "newsource", value "[{<ship>} {<res>}]");
+                    ;br;
+                    ;input(class "resource", name "setship", id "setship", value "~sed ~zod");
+                    ;br;
+                    ;p:"galaxy = %czar, star = %king, planet = %duke, moon = %earl, comet = %pawn"
+                    ;input(class "resource", name "ranks", id "ranks", value "%pawn");
+                    ;br;
+                    ;button(onclick "update()"):"update pokes"
+                    ;br;
+                    ;h5:"add members:"
+                    ;input(class "inside", name "add-members", id "add-members", value ":group-store &group-update-0 [%add-members [{<ship>} {<res>}] (sy ~[~sed ~zod])]");
+                    ;button(onclick "copy(\"add-members\")"):"copy"
+                  ==
+                ==
+                ;tr(vertical-align "top")
+                  ;td
+                    ;h3:"admins:"
+                    ;+  =-  (admin-maker (~(get ju tags.-) %admin))
+                        (~(got by meep) [ship res])
+                    ;button(onclick "copy(\"admin\")"):"copy"
+                  ==
+                  ;td(width "200px")
+                    ;br;
+                  ==
+                  ;td
+                    ;h5:"ban ships:"
+                    ;input(class "inside", name "ban-members", id "ban-members", value ":group-store &group-update-0 [%change-policy [{<ship>} {<res>}] [%open [%ban-ships (sy ~[~sed ~zod])]]]");
+                    ;button(onclick "copy(\"ban-members\")"):"copy"
+                    ;br;
+                    ;h5:"unban ships:"
+                    ;input(class "inside", name "unban-members", id "unban-members", value ":group-store &group-update-0 [%change-policy [{<ship>} {<res>}] [%open [%allow-ships (sy ~[~sed ~zod])]]]");
+                    ;button(onclick "copy(\"unban-members\")"):"copy"
+                    ;br;
+                    ;br;
+                    ;h5:"ban ranks"
+                    ;input(class "inside", name "ban-ranks", id "ban-ranks", value ":group-store &group-update-0 [%change-policy [{<ship>} {<res>}] [%open [%ban-ranks (sy ~[%pawn])]]]");
+                    ;button(onclick "copy(\"ban-ranks\")"):"copy"
+                    ;br;
+                    ;h5:"unban ranks"
+                    ;input(class "inside", name "unban-ranks", id "unban-ranks", value ":group-store &group-update-0 [%change-policy [{<ship>} {<res>}] [%open [%allow-ranks (sy ~[%pawn])]]]");
+                    ;button(onclick "copy(\"unban-ranks\")"):"copy"
+                  ==
+                ==
+              ==
+            ==
           ==
     ==
   ::
@@ -89,10 +153,10 @@
     =+  [adm=~(tap in men) dum='']
     |-
     ?~  adm
-      ;input(name "admins", value (trip dum));
+      ;textarea(readonly "", name "admins", id "admins"):"{(trip dum)}"
     %=  $
       adm  t.adm
-      dum  (rap 3 (scot %p i.adm) ' ' dum ~)
+      dum  (rap 3 (scot %p i.adm) '\0d' dum ~)
     ==
   ::
   ++  memb-maker
@@ -100,10 +164,10 @@
     =+  [mum=~(tap in members.group) dum='']
     |-
     ?~  mum
-      ;input(readonly "", name "members", value (trip dum));
+      ;textarea(readonly "", name "members", id "members"):"{(trip dum)}"
     %=  $
       mum  t.mum
-      dum  (rap 3 (scot %p i.mum) ' ' dum ~)
+      dum  (rap 3 (scot %p i.mum) '\0d' dum ~)
     ==
   ::
   ++  title-content
@@ -136,6 +200,20 @@
   ::
   ++  style
     '''
+    * { margin: 0.2em; padding: 0.2em; font-family: monospace; }
+    .output {
+      width: 70vw;
+      height: 60vh;
+      }
+    .resource {
+      width: 40em;
+    }
+    .inside {
+      width: 70em;
+    }
+    .right-column {
+      width: 50em;
+    }
     .blur-banner { 
         position: relative; 
         top: 60%; 
@@ -163,7 +241,22 @@
   ::
   ++  script
     '''
+    var copy = (id) => {
+      let textarea = document.getElementById(id);
+      textarea.select();
+      document.execCommand("copy");
+    }
+    var update = () => {
+      let res = document.getElementById("newsource").value;
+      let shi = document.getElementById("setship").value;
+      let ran = document.getElementById("ranks").value;
 
+      document.getElementById("add-members").value = `:group-store &group-update-0 [%add-members [${res}] (sy ~[${shi}])]`
+      document.getElementById("ban-members").value = `:group-store &group-update-0 [%change-policy [${res}] [%open [%ban-ships (sy ~[${shi}])]]]`
+      document.getElementById("unban-members").value = `:group-store &group-update-0 [%change-policy [${res}] [%open [%allow-ships (sy ~[${shi}])]]]`
+      document.getElementById("ban-ranks").value = `:group-store &group-update-0 [%change-policy [${res}] [%open [%ban-ranks (sy ~[${ran}])]]]`
+      document.getElementById("unban-ranks").value = `:group-store &group-update-0 [%change-policy [${res}] [%open [%allow-ranks (sy ~[${ran}])]]]`
+    }
     '''
   --
 --
