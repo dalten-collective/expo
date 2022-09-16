@@ -1,9 +1,10 @@
 :~  title+'expo'
-    info+'A Proof of Attendance Protocol for Urbit'
-    color+0xee.561c
+    info+'Get Stuff From Groups'
+    color+0xb5.7359
     site+/apps/expo
+    image+'https://freedom-club.sfo2.digitaloceanspaces.com/props/quartus/long-logo/ab_Quartus-05_only.png'
     base+'expo'
     version+[0 0 1]
     website+'https://dalten.org/'
-    license+'Get Rekt'
+    license+'REKT'
 ==
